@@ -1,0 +1,13 @@
+module.exports = async function (page, limit,model){
+    const total = await model.count();
+    const pageCount = Math.ceil(total / limit);
+    const start = (page-1) * limit + 1 ;
+    let end =start + limit - 1 ;
+    if(end>total) end=total;    
+
+    const Pagination = {total, pageCount, start, end, limit};
+    if(page<pageCount) Pagination.nextPage = page+1;
+    if(page>1) Pagination.prevPage = page-1;
+    
+    return Pagination;
+};
